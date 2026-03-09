@@ -3,10 +3,18 @@
 import { useLayoutEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import Image from "next/image"
+import MoodDashboard from "@/components/MoodDashboard"
  
 type ChatMessage = {
   role: "user" | "assistant"
   content: string
+}
+type MoodEntry = {
+  id: string
+  date: string
+  score: number
+  label: string
+  summary: string
 }
  
 export default function Home() {
@@ -16,6 +24,10 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [page, setPage] = useState("chat")
+  const [period, setPeriod] = useState<"week" | "month">("week")
+  const [moodEntries, setMoodEntries] = useState<MoodEntry[]>([])
+  
+
  
   const chatContainerRef = useRef<HTMLDivElement | null>(null)
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
@@ -127,10 +139,12 @@ export default function Home() {
       {/* MENU BUTTON */}
  
       <button
-        onClick={() => setMenuOpen(!menuOpen)}
-        className="fixed top-6 left-6 text-3xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-300/20 backdrop-blur-xl rounded-xl px-4 py-2 transition-all duration-200 z-50"
-      >
-        ☰
+        onClick={() => { 
+          setPage("mood")
+          setMenuOpen(false)
+        }}
+        >
+          Mood Dashboard
       </button>
  
  
