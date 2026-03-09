@@ -125,228 +125,180 @@ export default function Home() {
  
  
   return (
- 
-    <main
-      className={`
-      flex flex-col items-center min-h-screen p-10 gap-6 text-white
-      transition-all duration-300
-      ${menuOpen ? "ml-[260px]" : "ml-0"}
-      `}
+  <main
+    className={`flex flex-col items-center min-h-screen p-10 gap-6 text-white transition-all duration-300 ${
+      menuOpen ? "ml-[260px]" : "ml-0"
+    }`}
+  >
+    {/* MENU BUTTON */}
+    <button
+      onClick={() => setMenuOpen(!menuOpen)}
+      className="fixed top-6 left-6 text-3xl bg-blue-500/20 hover:bg-blue-500/30 border border-blue-300/30 rounded-2xl px-4 py-2 backdrop-blur-xl z-50"
     >
+      ☰
+    </button>
  
+    {/* SIDEBAR */}
+    {menuOpen && (
+      <div
+        className="
+          fixed top-0 left-0
+          h-full w-[260px]
+          bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80
+          backdrop-blur-2xl
+          border-r border-white/10
+          shadow-2xl
+          p-6 pt-24
+          flex flex-col gap-4
+          z-40
+        "
+      >
+        <button
+          onClick={() => {
+            setPage("chat")
+            setMenuOpen(false)
+          }}
+          className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.02] transition shadow-lg"
+        >
+          Chat
+        </button>
  
- 
-      {/* MENU BUTTON */}
- 
-      <button
-        onClick={() => setMenuOpen(!menuOpen)}
-        
-        
+        <button
+          onClick={() => {
+            setPage("mood")
+            setMenuOpen(false)
+          }}
+          className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.02] transition shadow-lg"
         >
           Mood Dashboard
-      </button>
+        </button>
  
- 
- 
-      {/* SIDEBAR */}
- 
-      {menuOpen && (
-  <div
-    className="
-    fixed top-0 left-0
-    h-full w-[260px]
-    bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80
-    backdrop-blur-2xl
-    border-r border-white/10
-    shadow-2xl
-    p-6 pt-24
-    flex flex-col gap-6
-    z-40
-    "
-  >
- 
-    <h2 className="text-3xl font-bold mb-4">
-      Menu
-    </h2>
- 
-    <button
-      onClick={() => {
-        setPage("chat")
-        setMenuOpen(false)
-      }}
-      className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.02] transition shadow-lg"
-    >
-      Chat
-    </button>
- 
-    <button
-      onClick={() => {
-        setPage("mood")
-        setMenuOpen(false)
-      }}
-      className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.02] transition shadow-lg"
-    >
-      Mood Dashboard
-    </button>
- 
-    <button
-      onClick={() => {
-        setPage("insights")
-        setMenuOpen(false)
-      }}
-      className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.02] transition shadow-lg"
-    >
-      AI Insights
-    </button>
- 
-  </div>
-)}
- 
- {page === "chat" && (
-  <>
- 
-      {/* LOGO + TITLE */}
- 
-<div className="w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80 backdrop-blur-2xl shadow-2xl px-10 py-8 mb-6">
-  <div className="flex items-center gap-8">
-    <Image
-      src="/logo.png"
-      alt="SoulTrack AI"
-      width={220}
-      height={220}
-      className="drop-shadow-2xl"
-    />
- 
-    <h1
-      className="
-        text-[56px]
-        font-black
-        tracking-tight
-        bg-gradient-to-r
-        from-white
-        via-blue-100
-        to-blue-300
-        bg-clip-text
-        text-transparent
-        drop-shadow-2xl
-      "
-    >
-      SoulTrack AI
-    </h1>
-  </div>
-</div>
- 
- 
- 
-      {/* CHAT BOX */}
- 
-      <div
-        ref={chatContainerRef}
-        className="w-full max-w-4xl h-[450px] overflow-y-auto rounded-3xl border border-blue-400/40 bg-[#0b1220]/70 backdrop-blur-2xl shadow-[0_0_25px_rgba(59,130,246,0.35)] p-6 space-y-4"
-      >
- 
-        {messages.map((msg, i) => (
- 
-          <div
-            key={i}
-            className={`flex ${
-              msg.role === "user"
-                ? "justify-end"
-                : "justify-start"
-            }`}
-          >
- 
-            <div
-              className={`max-w-[70%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
-                msg.role === "user"
-                  ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-br-sm shadow-lg"
-                  : "bg-[#111a2b]/90 border border-white/10 text-white rounded-bl-sm shadow-lg"
-              }`}
-            >
- 
-              <ReactMarkdown>
-                {msg.content}
-              </ReactMarkdown>
- 
-            </div>
- 
-          </div>
- 
-        ))}
- 
- 
- 
-        {loading && (
- 
-          <div className="flex justify-start">
- 
-            <div className="max-w-[70%] px-4 py-3 rounded-2xl text-sm bg-[#111a2b]/90 border border-white/10 text-white rounded-bl-sm flex gap-1">
- 
-              <span className="animate-bounce">•</span>
-              <span className="animate-bounce">•</span>
-              <span className="animate-bounce">•</span>
- 
-            </div>
- 
-          </div>
- 
-        )}
- 
-      </div>
- 
- 
- 
-      {/* INPUT */}
- 
-      <div className="w-full max-w-4xl flex flex-col gap-3">
- 
-        <textarea
-          ref={textareaRef}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          onKeyDown={(e) => {
- 
-            if (e.key === "Enter" && !e.shiftKey) {
- 
-              e.preventDefault()
-              analyze()
- 
-            }
- 
+        <button
+          onClick={() => {
+            setPage("insights")
+            setMenuOpen(false)
           }}
-          placeholder="Write about how you're feeling..."
-          className="w-full h-36 p-6 rounded-3xl bg-[#0b1220]/70 border border-white/10 backdrop-blur-2xl text-lg text-white placeholder-white/40 shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition resize-none"
-        />
+          className="text-left px-4 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 hover:scale-[1.02] transition shadow-lg"
+        >
+          AI Insights
+        </button>
+      </div>
+    )}
  
+    {/* CHAT PAGE */}
+    {page === "chat" && (
+      <>
+        <div className="w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80 backdrop-blur-2xl shadow-2xl px-10 py-8 mb-2">
+          <div className="flex items-center gap-8">
+            <Image
+              src="/logo.png"
+              alt="SoulTrack AI"
+              width={220}
+              height={220}
+              className="drop-shadow-2xl"
+            />
  
-        <div className="flex justify-end">
- 
-          <button
-            onClick={analyze}
-            disabled={loading}
-            className="px-8 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 border border-blue-300/20 transition font-semibold shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105"
-          >
-            {loading ? "Thinking..." : "Send"}
-          </button>
- 
+            <h1
+              className="
+                text-[56px]
+                font-black
+                tracking-tight
+                bg-gradient-to-r
+                from-white
+                via-blue-100
+                to-blue-300
+                bg-clip-text
+                text-transparent
+                drop-shadow-2xl
+              "
+            >
+              SoulTrack AI
+            </h1>
+          </div>
         </div>
  
-      </div>
+        <div
+          ref={chatContainerRef}
+          className="w-full max-w-4xl h-[450px] overflow-y-auto rounded-3xl border border-blue-400/40 bg-[#0b1220]/70 backdrop-blur-2xl shadow-[0_0_25px_rgba(59,130,246,0.35)] p-6 space-y-4"
+        >
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`flex ${
+                msg.role === "user" ? "justify-end" : "justify-start"
+              }`}
+            >
+              <div
+                className={`max-w-[70%] px-4 py-3 rounded-2xl text-sm leading-relaxed ${
+                  msg.role === "user"
+                    ? "bg-blue-500 text-white rounded-br-sm"
+                    : "bg-white/10 border border-white/20 text-white rounded-bl-sm"
+                }`}
+              >
+                <ReactMarkdown>{msg.content}</ReactMarkdown>
+              </div>
+            </div>
+          ))}
+ 
+          {loading &&
+            messages.length > 0 &&
+            messages[messages.length - 1]?.role !== "assistant" && (
+              <div className="flex justify-start">
+                <div className="max-w-[70%] px-4 py-3 rounded-2xl text-sm leading-relaxed bg-white/10 border border-white/20 text-white rounded-bl-sm flex gap-1 items-center">
+                  <span className="animate-bounce [animation-delay:-0.3s]">•</span>
+                  <span className="animate-bounce [animation-delay:-0.15s]">•</span>
+                  <span className="animate-bounce">•</span>
+                </div>
+              </div>
+            )}
+        </div>
+ 
+        <div className="w-full max-w-4xl flex flex-col gap-3">
+          <textarea
+            ref={textareaRef}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault()
+                analyze()
+              }
+            }}
+            placeholder="Write about how you're feeling..."
+            className="w-full h-36 p-6 rounded-3xl bg-[#0b1220]/70 border border-white/10 backdrop-blur-2xl text-lg text-white placeholder-white/40 shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition resize-none"
+          />
+ 
+          <div className="flex justify-end">
+            <button
+              onClick={analyze}
+              disabled={loading}
+              className="px-8 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 transition font-semibold shadow-lg disabled:opacity-50 disabled:cursor-not-allowed hover:scale-105"
+            >
+              {loading ? "Thinking..." : "Send"}
+            </button>
+          </div>
+        </div>
       </>
-  )}
- {page === "mood" && (
-        <MoodDashboard
-          moodEntries={moodEntries}
-          period={period}
-          setPeriod={setPeriod}
-        />
-      )}
-    </main>
+    )}
  
-  )
+    {/* MOOD PAGE */}
+    {page === "mood" && (
+      <MoodDashboard
+        moodEntries={moodEntries}
+        period={period}
+        setPeriod={setPeriod}
+      />
+    )}
  
-}
-
- 
- 
-   
+    {/* INSIGHTS PAGE */}
+    {page === "insights" && (
+      <div className="w-full max-w-4xl rounded-3xl border border-blue-400/40 bg-gradient-to-b from-blue-800/20 via-blue-900/20 to-black/40 backdrop-blur-2xl shadow-[0_0_25px_rgba(59,130,246,0.35)] p-6">
+        <h2 className="text-3xl font-black mb-4">AI Insights</h2>
+        <p className="text-white/70">
+          Here we will later add deeper AI analysis of emotional patterns,
+          repeated struggles, and growth over time.
+        </p>
+      </div>
+    )}
+  </main>
+)}
