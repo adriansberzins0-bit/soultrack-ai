@@ -139,10 +139,9 @@ export default function Home() {
       {/* MENU BUTTON */}
  
       <button
-        onClick={() => { 
-          setPage("mood")
-          setMenuOpen(false)
-        }}
+        onClick={() => setMenuOpen(!menuOpen)}
+        
+        
         >
           Mood Dashboard
       </button>
@@ -203,7 +202,8 @@ export default function Home() {
   </div>
 )}
  
- 
+ {page === "chat" && (
+  <>
  
       {/* LOGO + TITLE */}
  
@@ -332,7 +332,15 @@ export default function Home() {
         </div>
  
       </div>
- 
+      </>
+  )}
+ {page === "mood" && (
+        <MoodDashboard
+          moodEntries={moodEntries}
+          period={period}
+          setPeriod={setPeriod}
+        />
+      )}
     </main>
  
   )
