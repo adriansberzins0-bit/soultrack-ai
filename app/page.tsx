@@ -290,19 +290,19 @@ export default function Home() {
       {/* CHAT PAGE */}
       {page === "chat" && (
         <>
-          <div className="w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80 backdrop-blur-2xl shadow-2xl px-4 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 mb-2">
-            <div className="flex flex-row items-center gap-4 sm:gap-6 text-center">
+          <div className="w-full max-w-2xl md:max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80 backdrop-blur-2xl shadow-2xl px-4 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 mb-2">
+            <div className="flex flex-row items-center gap-2 sm:gap-6">
               <Image
                 src="/logo.png"
                 alt="SoulTrack AI"
                 width={220}
                 height={220}
-                className="w-[90px] h-[90px] sm:w-[140px] sm:h-[140px] md:w-[220px] md:h-[220px] drop-shadow-2xl"
+                className="w-[55px] h-[55px] sm:w-[120px] sm:h-[120px] md:w-[220px] md:h-[220px] drop-shadow-2xl"
               />
  
               <h1
                 className="
-                  text-3xl sm:text-5xl md:text-[56px]
+                  text-2xl sm:text-5xl md:text-[56px]
                   font-black
                   tracking-tight
                   bg-gradient-to-r
