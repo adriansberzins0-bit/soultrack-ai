@@ -17,6 +17,12 @@ export default function Home() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      analyze()
+    }
+  }
  
   const chatRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -108,12 +114,7 @@ export default function Home() {
     }
   }
  
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      analyze()
-    }
-  }
+ 
  
   return (
     <>
@@ -234,7 +235,7 @@ export default function Home() {
           <>
             <div
               ref={chatRef}
-              className="w-full max-w-4xl h-[420px] rounded-3xl border border-white/10 bg-black/40 p-6 overflow-y-auto"
+              className="w-full max-w-4xl h-[320px] rounded-3xl border border-white/10 bg-black/40 p-6 overflow-y-auto"
             >
               {messages.map((m, i) => (
                 <div
@@ -280,7 +281,7 @@ export default function Home() {
               <button
                 onClick={analyze}
                 disabled={loading}
-                className="px-6 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 disabled:opacity-50"
+                className="px-6 py-5 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 disabled:opacity-50"
               >
                 Send
               </button>
