@@ -243,9 +243,11 @@ export default function Home() {
       {/* SIDEBAR */}
       {menuOpen && (
         <div
-          className="
-            fixed top-0 left-0
-            h-full w-[220px] sm:w-[240px] md:w-[260px]
+          className={`
+            fixed md:relative
+            top-0 left-0
+            w-[260px]
+            h-full
             bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80
             backdrop-blur-2xl
             border-r border-white/10
@@ -253,7 +255,7 @@ export default function Home() {
             p-5 pt-20
             flex flex-col gap-4
             z-40
-          "
+          `}
         >
           <button
             onClick={() => {
