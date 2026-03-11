@@ -291,7 +291,7 @@ export default function Home() {
       {page === "chat" && (
         <>
           <div className="w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-b from-blue-800/60 via-blue-900/40 to-black/80 backdrop-blur-2xl shadow-2xl px-4 py-4 sm:px-6 sm:py-6 md:px-10 md:py-8 mb-2">
-            <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-center sm:text-left">
+            <div className="flex flex-row items-center gap-4 sm:gap-6 text-center">
               <Image
                 src="/logo.png"
                 alt="SoulTrack AI"
