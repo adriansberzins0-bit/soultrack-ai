@@ -3,7 +3,7 @@
 import { useState, useRef, useLayoutEffect, useEffect } from "react"
 import Image from "next/image"
 import ReactMarkdown from "react-markdown"
-import MoodDashboard from "@/components/MoodChart"
+import MoodDashboard from "@/components/MoodDashboard"
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
  
 type ChatMessage = {
@@ -17,6 +17,8 @@ export default function Home() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
+  const [period, setPeriod] = useState<"week" | "month">("week")
+  const [moodEntries, setMoodEntries] = useState<any[]>([])
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
@@ -290,7 +292,13 @@ export default function Home() {
         )}
  
         {/* MOOD PAGE */}
-        {page === "mood" && <MoodDashboard />}
+        {page === "mood" && (
+        <MoodDashboard 
+        moodEntries={moodEntries}
+        period={period}
+        setPeriod={setPeriod}
+         />
+        )}
  
         {/* INSIGHTS PAGE */}
         {page === "insights" && (

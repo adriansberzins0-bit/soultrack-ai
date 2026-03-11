@@ -18,7 +18,7 @@ function getFilteredEntries(entries: MoodEntry[], period: "week" | "month") {
   const now = new Date()
   const days = period === "week" ? 7 : 30
  
-  return entries.filter((entry) => {
+  return (entries || []).filter((entry) => {
     const entryDate = new Date(entry.date)
     const diffMs = now.getTime() - entryDate.getTime()
     const diffDays = diffMs / (1000 * 60 * 60 * 24)
