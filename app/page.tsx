@@ -218,8 +218,8 @@ export default function Home() {
             <Image
               src="/logo.png"
               alt="SoulTrack AI"
-              width={140}
-              height={140}
+              width={160}
+              height={160}
               className="w-[60px] h-[60px] md:w-[120px] md:h-[120px]"
             />
  
