@@ -237,7 +237,7 @@ export default function Home() {
           <>
             <div
               ref={chatRef}
-              className="w-full max-w-4xl h-[320px] rounded-3xl border border-white/10 bg-black/40 p-6 overflow-y-auto"
+              className="w-full max-w-4xl h-[320px] rounded-3xl border border-blue-400/30 bg-black/40 p-6 shadow-[0_0_90px_rgba(59, 130, 246, 0.9)] overflow-y-auto"
             >
               {messages.map((m, i) => (
                 <div
