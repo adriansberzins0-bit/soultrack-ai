@@ -22,6 +22,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false)
   const [period, setPeriod] = useState<"week" | "month">("week")
   const [moodEntries, setMoodEntries] = useState<any[]>([])
+  const [showSoulyIntro, setShowSoulyIntro] = useState(true)
+  const [soulyIntroText, setSoulyIntroText] = useState("")
+  const [soulyTyping, setSoulyTyping] = useState(true)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault()
@@ -39,6 +42,33 @@ export default function Home() {
   }, [messages, loading])
  
   useEffect(() => {
+     if (!showWelcome && showSoulyIntro) {
+    const fullText =
+      "Hi! I’m Souly. Your emotional companion. Feel free to share your thoughts and feelings with me. To start chatting, write below!"
+ 
+    setSoulyTyping(true)
+    setSoulyIntroText("")
+ 
+    const startDelay = setTimeout(() => {
+      setSoulyTyping(false)
+ 
+      let i = 0
+      const interval = setInterval(() => {
+        i++
+        setSoulyIntroText(fullText.slice(0, i))
+ 
+        if (i >= fullText.length) {
+          clearInterval(interval)
+        }
+      }, 22)
+ 
+      return () => clearInterval(interval)
+    }, 1200)
+ 
+    return () => clearTimeout(startDelay)
+  }
+}, [showWelcome, showSoulyIntro])
+useEffect(() => {
 const fadeTimer = setTimeout(() => {
 setWelcomeFadingOut(true)
 }, 2600)
@@ -136,7 +166,7 @@ useEffect(() => {
  
  
   return (
-    <>
+   <>
     <WelcomeOverlay visible={showWelcome} fadingOut={welcomeFadingOut} />
       {/* OVERLAY */}
       {menuOpen && (
@@ -250,71 +280,81 @@ useEffect(() => {
           </div>
         </div>
  
-        {/* CHAT PAGE */}
-        {page === "chat" && (
-          <>
-            <div
-              ref={chatRef}
-              className="relative w-full max-w-4xl h-[320px] rounded-3xl border border-blue-300/30 bg-gradient-to-b from-blue-800/35 to-black/25 p-6 shadow-[0_0_0_1px_rgba(59,130,246,0.12),0_0_55px_rgba(59,130,246,0.35)] overflow-y-auto"
-            >
-              {messages.length === 0 && !loading && (
-                <div className="pointer-events-none absolute left-8 top-6">
-                  <div className="text-sm sm:text-base font-black tracking-tight bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent opacity-90 drop-shadow-[0_14px_45px_rgba(59,130,246,0.30)]">
-                   Chat to Souly- your emotion companion!
-                  </div>
-                </div>
-              )}
-              {messages.map((m, i) => (
-                <div
-                  key={i}
-                  className={`mb-4 flex ${
-                    m.role === "user" ? "justify-end" : "justify-start"
-                  }`}
-                >
-                  <div
-                    className={`
-                      max-w-[80%] rounded-2xl px-4 py-3 text-sm sm:text-base leading-relaxed shadow-lg
-                      ${
-                        m.role === "user"
-                          ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
-                          : "bg-white/10 border border-white/10 text-white"
-                      }
-                    `}
-                  >
-                    <ReactMarkdown>{m.content}</ReactMarkdown>
-                  </div>
-                </div>
-              ))}
+    {page === "chat" && (
+  <>
+    <div
+      ref={chatRef}
+      className="relative w-full max-w-4xl h-[320px] rounded-3xl border border-blue-300/30 bg-gradient-to-b from-blue-900/40 to-black/40 p-6 overflow-y-auto shadow-[0_0_30px_rgba(59,130,246,0.25)]"
+    >
+      {messages.length === 0 && !loading && (
+  <div className="absolute left-8 top-6">
+    <div className="text-sm sm:text-base font-black tracking-tight text-white">
+      
+    </div>
  
-              {loading && (
-                <div className="mb-4 flex justify-start">
-                  <div className="max-w-[80%] rounded-2xl px-4 py-3 text-sm sm:text-base bg-white/10 border border-white/10 text-white shadow-lg">
-                    AI is thinking...
-                  </div>
-                </div>
-              )}
-            </div>
+    <div className="flex items-center gap-6 mt-6">
+      <img
+        src="/souly/souly-happy (2).png"
+        alt="Souly"
+        className="w-64 h-64 object-contain animate-souly-pulse animate-souly-float"
+      />
  
-            <div className="w-full max-w-4xl flex gap-3 items-end">
-              <textarea
-                ref={textareaRef}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Write about how you're feeling..."
-                className="flex-1 min-h-[110px] rounded-2xl bg-black/40 border border-white/10 p-4 resize-none outline-none"
-              />
- 
-              <button
-                onClick={analyze}
-                disabled={loading}
-                className="px-6 py-5 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 disabled:opacity-50"
-              >
-                Send
-              </button>
-            </div>
-          </>
+      <div className="bg-blue-900/50 border border-white/10 px-5 py-4 rounded-2xl text-white max-w-lg min-h-[96px] flex items-center shadow-[0_0_20px_rgba(59,130,246,0.18)]">
+        {soulyTyping ? (
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-white/80 animate-typing-dot" />
+            <span className="w-2.5 h-2.5 rounded-full bg-white/80 animate-typing-dot [animation-delay:0.2s]" />
+            <span className="w-2.5 h-2.5 rounded-full bg-white/80 animate-typing-dot [animation-delay:0.4s]" />
+          </div>
+        ) : (
+          <p className="leading-relaxed">{soulyIntroText}</p>
         )}
+      </div>
+    </div>
+  </div>
+)}
+      {messages.map((m, i) => (
+        <div
+          key={i}
+          className={`mb-4 flex ${
+            m.role === "user" ? "justify-end" : "justify-start"
+          }`}
+        >
+          <div
+            className={`max-w-[80%] rounded-2xl px-4 py-3 text-sm sm:text-base leading-relaxed shadow-lg ${
+              m.role === "user"
+                ? "bg-gradient-to-r from-blue-500 to-indigo-600 text-white"
+                : "bg-white/10 border border-white/10 text-white"
+            }`}
+          >
+            <ReactMarkdown>{m.content}</ReactMarkdown>
+          </div>
+        </div>
+      ))}
+    </div>
+ 
+    <div className="w-full max-w-4xl flex gap-3 items-end mt-5">
+      <textarea
+        ref={textareaRef}
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        onKeyDown={handleKeyDown}
+        placeholder="Write about how you're feeling..."
+        className="flex-1 min-h-[110px] rounded-2xl bg-black/40 border border-white/10 p-4 resize-none outline-none text-white"
+      />
+ 
+      <button
+        onClick={analyze}
+        disabled={loading}
+        className="px-6 py-5 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 disabled:opacity-50 text-white"
+      >
+        Send
+      </button>
+    </div>
+  </>
+)}
+
+
  
         {/* MOOD PAGE */}
         {page === "mood" && (
