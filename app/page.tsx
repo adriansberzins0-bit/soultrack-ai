@@ -5,6 +5,7 @@ import Image from "next/image"
 import ReactMarkdown from "react-markdown"
 import MoodDashboard from "@/components/MoodDashboard"
 import { Show, SignInButton, SignUpButton, UserButton } from "@clerk/nextjs"
+import WelcomeOverlay from "@/components/WelcomeOverlay"
  
 type ChatMessage = {
   role: "user" | "assistant"
@@ -15,6 +16,8 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [page, setPage] = useState<"chat" | "mood" | "insights">("chat")
   const [messages, setMessages] = useState<ChatMessage[]>([])
+  const [showWelcome, setShowWelcome] = useState(true)
+  const [welcomeFadingOut, setWelcomeFadingOut] = useState(false)
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
   const [period, setPeriod] = useState<"week" | "month">("week")
@@ -36,6 +39,20 @@ export default function Home() {
   }, [messages, loading])
  
   useEffect(() => {
+const fadeTimer = setTimeout(() => {
+setWelcomeFadingOut(true)
+}, 2600)
+
+const removeTimer = setTimeout(() => {
+setShowWelcome(false)
+}, 3300)
+
+return () => {
+clearTimeout(fadeTimer)
+clearTimeout(removeTimer)
+}
+}, [])
+useEffect(() => {
     if (typeof window !== "undefined" && window.innerWidth < 768) {
       document.body.style.overflow = menuOpen ? "hidden" : "auto"
     } else {
@@ -120,6 +137,7 @@ export default function Home() {
  
   return (
     <>
+    <WelcomeOverlay visible={showWelcome} fadingOut={welcomeFadingOut} />
       {/* OVERLAY */}
       {menuOpen && (
         <div
@@ -240,9 +258,9 @@ export default function Home() {
               className="relative w-full max-w-4xl h-[320px] rounded-3xl border border-blue-300/30 bg-gradient-to-b from-blue-800/35 to-black/25 p-6 shadow-[0_0_0_1px_rgba(59,130,246,0.12),0_0_55px_rgba(59,130,246,0.35)] overflow-y-auto"
             >
               {messages.length === 0 && !loading && (
-                <div className="pointer-events-none absolute left-6 top-5">
+                <div className="pointer-events-none absolute left-8 top-6">
                   <div className="text-sm sm:text-base font-black tracking-tight bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent opacity-90 drop-shadow-[0_14px_45px_rgba(59,130,246,0.30)]">
-                    Chat with your assistant!
+                   Chat to Souly- your emotion companion!
                   </div>
                 </div>
               )}
