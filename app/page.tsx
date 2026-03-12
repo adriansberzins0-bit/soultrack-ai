@@ -217,7 +217,7 @@ export default function Home() {
  
         {/* HERO */}
         <div className="w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-b from-blue-800/60 to-black/80 shadow-[0_0_40px_rgba(59,130,246,0.25)]">
-          <div className="flex items-center gap-5 px-6 py-8">
+          <div className="flex items-center justify-center gap-5 px-6 py-8">
             <Image
               src="/logo.png"
               alt="SoulTrack AI"
@@ -225,7 +225,7 @@ export default function Home() {
               height={160}
               className="w-[60px] h-[60px] md:w-[120px] md:h-[120px]"
             />
- 
+
             <h1 className="text-3xl md:text-[56px] font-black tracking-tight bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
               SoulTrack AI
             </h1>
@@ -237,8 +237,15 @@ export default function Home() {
           <>
             <div
               ref={chatRef}
-              className="w-full max-w-4xl h-[320px] rounded-3xl border border-blue-400/30 bg-black/40 p-6 shadow-[0__90px_rgba(59, 130, 246, 0.9)] overflow-y-auto"
+              className="relative w-full max-w-4xl h-[320px] rounded-3xl border border-blue-300/30 bg-gradient-to-b from-blue-800/35 to-black/25 p-6 shadow-[0_0_0_1px_rgba(59,130,246,0.12),0_0_55px_rgba(59,130,246,0.35)] overflow-y-auto"
             >
+              {messages.length === 0 && !loading && (
+                <div className="pointer-events-none absolute left-6 top-5">
+                  <div className="text-sm sm:text-base font-black tracking-tight bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent opacity-90 drop-shadow-[0_14px_45px_rgba(59,130,246,0.30)]">
+                    Chat with your assistant!
+                  </div>
+                </div>
+              )}
               {messages.map((m, i) => (
                 <div
                   key={i}
