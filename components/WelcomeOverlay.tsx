@@ -4,12 +4,12 @@ import Image from "next/image"
  
 type WelcomeOverlayProps = {
   visible: boolean
-  fadingOut?: boolean
+  onNext: () => void
 }
  
 export default function WelcomeOverlay({
   visible,
-  fadingOut = false,
+  onNext,
 }: WelcomeOverlayProps) {
   if (!visible) return null
  
@@ -18,7 +18,7 @@ export default function WelcomeOverlay({
       className={`
         fixed inset-0 z-[999] flex items-center justify-center overflow-hidden
         transition-opacity duration-700
-        ${fadingOut ? "opacity-0" : "opacity-100"}
+        opacity-100
       `}
     >
       {/* BACKGROUND */}
@@ -67,9 +67,17 @@ export default function WelcomeOverlay({
           <span className="h-3 w-3 rounded-full bg-indigo-300 shadow-[0_0_18px_rgba(129,140,248,0.85)] animate-dotBounce [animation-delay:0.4s]" />
         </div>
  
-        <p className="mt-4 max-w-md text-sm text-white/55 md:text-base">
-          Your emotional AI companion is getting ready...
+        <p className="mt-4 max-w-md text-sm text-white/65 md:text-base">
+          Your emotional AI companion for understanding how you feel.
         </p>
+
+        <button
+          onClick={onNext}
+          className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-blue-500 to-indigo-600 px-7 py-3 text-sm font-semibold text-white shadow-[0_14px_40px_rgba(59,130,246,0.55)] hover:from-blue-400 hover:to-indigo-500 hover:shadow-[0_18px_55px_rgba(59,130,246,0.65)] transition-transform hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99]"
+        >
+          Next
+          <span className="text-lg leading-none">→</span>
+        </button>
       </div>
     </div>
   )
