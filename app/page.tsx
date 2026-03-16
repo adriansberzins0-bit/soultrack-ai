@@ -265,13 +265,13 @@ useEffect(() => {
  
         {/* HERO */}
         <div className="w-full max-w-4xl rounded-3xl border border-white/10 bg-gradient-to-b from-blue-800/60 to-black/80 shadow-[0_0_40px_rgba(59,130,246,0.25)]">
-          <div className="flex items-center justify-center gap-5 px-6 py-8">
+          <div className="flex items-center justify-center gap-6 px-6 py-8">
             <Image
               src="/logo.png"
               alt="SoulTrack AI"
-              width={160}
-              height={160}
-              className="w-[60px] h-[60px] md:w-[120px] md:h-[120px]"
+              width={260}
+              height={260}
+              className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] drop-shadow-[0_18px_55px_rgba(59,130,246,0.45)]"
             />
 
             <h1 className="text-3xl md:text-[56px] font-black tracking-tight bg-gradient-to-r from-white via-blue-100 to-blue-300 bg-clip-text text-transparent">
@@ -284,7 +284,7 @@ useEffect(() => {
   <>
     <div
       ref={chatRef}
-      className="relative w-full max-w-4xl h-[320px] rounded-3xl border border-blue-300/30 bg-gradient-to-b from-blue-900/40 to-black/40 p-6 overflow-y-auto shadow-[0_0_30px_rgba(59,130,246,0.25)]"
+      className="relative w-full max-w-4xl h-[260px] sm:h-[320px] rounded-3xl border border-blue-300/30 bg-gradient-to-b from-blue-900/40 to-black/40 p-4 sm:p-6 overflow-y-auto shadow-[0_0_30px_rgba(59,130,246,0.25)]"
     >
       {messages.length === 0 && !loading && (
   <div className="absolute left-8 top-6">
