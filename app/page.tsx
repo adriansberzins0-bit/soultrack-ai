@@ -17,6 +17,7 @@ export default function Home() {
   const [page, setPage] = useState<"chat" | "mood" | "insights">("chat")
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [showWelcome, setShowWelcome] = useState(true)
+  const [welcomeFadingOut, setWelcomeFadingOut] = useState(false)
   const [text, setText] = useState("")
   const [loading, setLoading] = useState(false)
   const [period, setPeriod] = useState<"week" | "month">("week")
@@ -41,32 +42,46 @@ export default function Home() {
   }, [messages, loading])
  
   useEffect(() => {
-    if (!showWelcome && showSoulyIntro) {
-      const fullText =
-        "Hi! I’m Souly. Your emotional companion. Feel free to share your thoughts and feelings with me. To start chatting, write below!"
+     if (!showWelcome && showSoulyIntro) {
+    const fullText =
+      "Hi! I’m Souly. Your emotional companion. Feel free to share your thoughts and feelings with me. To start chatting, write below!"
+ 
+    setSoulyTyping(true)
+    setSoulyIntroText("")
+ 
+    const startDelay = setTimeout(() => {
+      setSoulyTyping(false)
+ 
+      let i = 0
+      const interval = setInterval(() => {
+        i++
+        setSoulyIntroText(fullText.slice(0, i))
+ 
+        if (i >= fullText.length) {
+          clearInterval(interval)
+        }
+      }, 22)
+ 
+      return () => clearInterval(interval)
+    }, 1200)
+ 
+    return () => clearTimeout(startDelay)
+  }
+}, [showWelcome, showSoulyIntro])
+useEffect(() => {
+const fadeTimer = setTimeout(() => {
+setWelcomeFadingOut(true)
+}, 2600)
 
-      setSoulyTyping(true)
-      setSoulyIntroText("")
+const removeTimer = setTimeout(() => {
+setShowWelcome(false)
+}, 3300)
 
-      const startDelay = setTimeout(() => {
-        setSoulyTyping(false)
-
-        let i = 0
-        const interval = setInterval(() => {
-          i++
-          setSoulyIntroText(fullText.slice(0, i))
-
-          if (i >= fullText.length) {
-            clearInterval(interval)
-          }
-        }, 22)
-
-        return () => clearInterval(interval)
-      }, 1200)
-
-      return () => clearTimeout(startDelay)
-    }
-  }, [showWelcome, showSoulyIntro])
+return () => {
+clearTimeout(fadeTimer)
+clearTimeout(removeTimer)
+}
+}, [])
 useEffect(() => {
     if (typeof window !== "undefined" && window.innerWidth < 768) {
       document.body.style.overflow = menuOpen ? "hidden" : "auto"
@@ -152,13 +167,7 @@ useEffect(() => {
  
   return (
    <>
-    <WelcomeOverlay
-      visible={showWelcome}
-      onNext={() => {
-        setShowWelcome(false)
-        setShowSoulyIntro(true)
-      }}
-    />
+    <WelcomeOverlay visible={showWelcome} fadingOut={welcomeFadingOut} />
       {/* OVERLAY */}
       {menuOpen && (
         <div
